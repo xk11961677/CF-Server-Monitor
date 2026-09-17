@@ -281,6 +281,19 @@
 
           <div class="form-group flex-1">
             <label class="form-label">
+              {{ trans.trafficReport || 'Traffic reports' }}
+              <HelpTooltip
+                :text="`⚠️ ${trans.trafficReportRestartWarning || 'Traffic uses network-interface counters. A server or Agent restart may reset them and make the current report period inaccurate.'}`"
+              />
+            </label>
+            <select v-model="settings.traffic_report_enabled" class="form-select">
+              <option :value="false">{{ trans.disabled || 'Disabled' }}</option>
+              <option :value="true">{{ trans.enabled || 'Enabled' }}</option>
+            </select>
+          </div>
+
+          <div class="form-group flex-1">
+            <label class="form-label">
               {{ trans.expireNotificationTime || 'Expiration Notification Time' }}
               <HelpTooltip :text="trans.expireNotificationTimeTip || 'Check expiration and send reminders daily at this hour in the notification timezone. Use 0-23.'" />
             </label>
@@ -680,13 +693,13 @@
         </div>
         <div class="ping-node-grid">
           <div v-for="field in ['node_1', 'node_2']" :key="field" class="ping-node-item">
-            <div class="ping-node-fields"><input type="text" v-model.trim="settings[`${field}_name`]" class="form-input ping-node-name"><span class="ping-node-arrow">→</span><input type="text" v-model.trim="settings[field]" :class="['form-input', { 'input-invalid': pingNodeErrors[field] }]" placeholder="host[:port]"></div>
+            <div class="ping-node-fields"><input type="text" v-model.trim="settings[`${field}_name`]" class="form-input ping-node-name"><span class="ping-node-arrow">→</span><input type="text" v-model.trim="settings[field]" :class="['form-input', { 'input-invalid': pingNodeErrors[field] }]" placeholder="host[:port] / [IPv6]:port"></div>
             <p v-if="pingNodeErrors[field]" class="text-red text-sm mt-1">{{ pingNodeErrors[field] }}</p>
           </div>
         </div>
         <div class="ping-node-grid">
           <div v-for="field in ['node_3', 'node_4']" :key="field" class="ping-node-item">
-            <div class="ping-node-fields"><input type="text" v-model.trim="settings[`${field}_name`]" class="form-input ping-node-name"><span class="ping-node-arrow">→</span><input type="text" v-model.trim="settings[field]" :class="['form-input', { 'input-invalid': pingNodeErrors[field] }]" placeholder="host[:port]"></div>
+            <div class="ping-node-fields"><input type="text" v-model.trim="settings[`${field}_name`]" class="form-input ping-node-name"><span class="ping-node-arrow">→</span><input type="text" v-model.trim="settings[field]" :class="['form-input', { 'input-invalid': pingNodeErrors[field] }]" placeholder="host[:port] / [IPv6]:port"></div>
             <p v-if="pingNodeErrors[field]" class="text-red text-sm mt-1">{{ pingNodeErrors[field] }}</p>
           </div>
         </div>
